@@ -1,0 +1,147 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{epsfig}
+\usepackage{url}
+\usepackage{blindtext}
+\usepackage{scrextend}
+\usepackage{tasks}
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\addtokomafont{labelinglabel}{\sffamily}
+
+
+
+\begin{document}
+
+\title{2 Rewirewing Networks}
+\author{Evan Huygen, Marcel Vo{\ss}hans}
+\maketitle
+
+\begin{abstract}
+In the following report, we analyze the trajectory of a billiard ball if the ball tangents a corner of an equilateral triangle and moves the same distance forward, it needed to the corner. The question is: Can the ball escape? A Mathematica model simulates this model with the result, that the ball normally can’t escape from the triangle. This is a simplified model about our solar system and the possibility of an escaping planet based on a billiard table.
+\end{abstract}
+
+\tableofcontents
+
+\section{Introduction}
+Imagine a billiard table with a triangle on it. A billiard ball runs toward to one of the corners with constant speed \(v1\). The way \(d1\) it needs to the corner, is also the distance it runs forward (from the corner away). Then the ball targets the next corner and got a new distance to the corner: \(d2\) which is also the new distance from the corner away. This procedure it makes n times. The total distance amount to:
+\begin{align}
+d_{sum}&= \sum \limits_{i=1}^n 2 \cdot d_i
+\end{align}
+The idea of the mathematical tool to use is the point reflection in a point unequal to the source(corner). The goal of the model is to make a statement: Can the billiard ball escape from the triangle (divergent) or is there a border to reach which would be the local maximum circle around the triangle (convergent)? This theory describes a mathematical model of the solar system and the possibility of an escaping planet (for example the Pluto [currently a dwarf planet]). From the physical point of view can both cases signify that the planet escapes, it depends on the gravity of the solar system.
+ \subsection{Setup}
+The CAS Mathematica from Wolfram is a very powerful tool to create Models like the regarded billiard table. So, for this model the latest (2017.09.21) version of Mathematica (v11.1.1.0) is used. The kernel runs on a Windows 10- 64bit OS.
+ \subsection{Realization in Mathematica}
+The entire program is spitted in 4 basic parts as follows:
+\begin{labeling}{step}
+\item [a)] \textbf{Basic Framework} – In the first part is it important to create the initial situation. The \(circlePoint[n]\) function gives the positions of \(n\) points equally spaced around the unit circle \cite{doc}. With these three points is the construction of a triangle, with a side length of \(d_1=1\), done. Further, will these points be saved to \(A, B\) and \(C\). To detect where the starting point is, are the equations for the three sides of the triangle also needed:
+\begin{align}
+f(x) &=-0.5\\
+g(x) &=1-\sqrt{3}\cdot x\\
+h(x) &=1+\sqrt{3}\cdot x
+\end{align}
+\item [b)] \textbf{Starting Point Initialization} – The requirements concerning the model is that the starting point can be initialized everywhere outside the triangle. So, at first is here the area to fill in the changeable data for the Model: x-coordinate, y-coordinate and the number of repetitions. The validation follows in the next step. If the coordinates are inside the triangle, then will be the calculation step [c)] be skipped. The starting point\(K\) must fulfil the following inequation:
+\begin{align}
+ K_y \le h(K_x) \land K_y \le g(K_x) \land K_y \ge f(K_x)
+\end{align}
+\item [c)] \textbf{Point Reflection Calculation} – Now will the model calculate the points depending on the number of repetitions. The points are stored in a point list which is also the order for the plot connections because \(AppendTo[]\) appends always the last point which is calculated each step. Another difficult part is to find the right corner to reflect the current point \(P\). Three inequations:
+\begin{align}
+P_y < h(P_x) \land P_y \ge g(P_x) &\rightarrow A\\
+P_y \ge h(P_x) \land P_y > f(P_x) &\rightarrow B\\
+P_y < g(P_x) \land P_y \le f(P_x) &\rightarrow C
+\end{align}
+The position of the starting/current point is thus unique.
+\item [d)] \textbf{Output} – Now the model got the triangle, the starting point and the consequent points. The last step just plots the model and sets some preferences for the display.
+\end{labeling}
+\section{Results}
+Basically, are there three types of trajectories. The depending factors for a different result are the
+\begin{tasks}(3)
+\task distance to the \\next corner
+\task number of \\repetitions
+\task position to the \\triangle
+\end{tasks}
+It is another type of trajectory if the pattern is different from the expected. The mainly factor is the distance to the next corner. Here are two options: close to the triangle (the point is located in the range of the dimensions of the triangle) or far away from the next corner (factor \(100\) and up):
+ \subsection{Starting point in close vicinity to the triangle}
+The normal expected situation is to use the model in proportional way. So, we got a triangle with a side length of \(d_1=1\), therefore it is a good start to locate the starting point also with a distance of \(d_1=1\) to one of the corners. We start also with a relatively low number of repetitions in this case with: \(n=25\).
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.41\textwidth]{normalDistance25_NP.png}
+\caption{Close position of the point \(K\) with \(d_1=1\) and \(n=25\)}
+\end{figure}
+It seems to be a loop after a while because there are not 25 lines. Another try with \(n=1000\) repetitions tells more:
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.41\textwidth]{normalDistance1k_NP.png}
+\caption{Close position with \(d_1=1\) and \(n=1000\)}
+\end{figure}
+So, both figures have the same pattern: it is a loop. First statement: the ball can’t escape because it got only one trajectory, which it can’t leave. Another starting point position approves it. It has another pattern (expected) and the loop has a longer way but it remains a loop:
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.41\textwidth]{normalDistance1k_2_NP.png}
+\caption{Another "normal" position of the start with \(n=1000\)}
+\end{figure}
+\\Here is the deliberation: Can we predict the number of repetitions to get a loop according to the distance to the triangle? For this case, it must be found an equal point in the point list. Here it is helpful to use the \(Position[list, {Point}]\) -command. One strategy is to create a list with the loop length of some positions of \(K\) and look for a pattern. The prediction \(n_{loop}\) can be approximate by:
+\begin{align}
+\label{approxN}n_{loop}&= \left(4 \cdot round_b \left( \frac{d_1}{7} \right) \pm 1\right) \cdot 6
+\end{align}
+The precision depends in this formula on the border to round up or down. The border \(b\) is approximately:
+\begin{align}
+b&\approx 0.45
+\end{align} 
+to round up. Dependent from the rounding it is necessary to add or to substrate a \(1\):
+\begin{align}
+round up &\rightarrow -1\\
+round down &\rightarrow +1 
+\end{align}
+For example, the starting point has a distance of \(d_1=25\):
+\begin{align}
+n_{loop}= \left(4 \cdot round_b \left( \frac{25}{7} \right) -1 \right) \cdot 6 = \left(4 \cdot 4 -1 \right) \cdot 6 = 90
+\end{align}
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.56\textwidth]{normalDistancePredic_NP.png}
+\caption{The SP with a distance \(d_1=25\) and the the prediction: verified}
+\end{figure}
+
+\subsection{Starting point is in-line with a triangles side}
+There are some exceptions. Some of them are easy to detect and some are very hard. If the starting point is in line of a triangles side:
+\begin{align}
+f(x) \lor g(x) \lor h(x) &= P_{xy} \lor K_{xy}
+\end{align}
+Then is the loop-length nearly to infinity or even not existing. Because of the extreme it is nearly impossible to make statement about this case. To except the in- line positions is not that problem but in case of an in-line located point after the starting point is much harder to predict.\\
+\pagebreak
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.33\textwidth]{inLine_directSP.png}
+\caption{\(K\left(-1,-0.5\right)\) and \(n=1000\). Starting with an in-line point}
+\end{figure}
+\\Or a causing in-line case with just \(10\) repetitions:\\
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.3\textwidth]{inLine_afterSP.png}
+\caption{\(K\left(\sqrt{3}/2,-3.5\right)\). The second point causes an in-line situation}
+\end{figure}\\
+Therefore, the pattern grows more and more up until it finds a loop or runs to infinity:\\
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.3\textwidth]{inLine_after_20K_SP.png}
+\caption{\(K\left(\sqrt{3}/2,-3.5\right)\) and \(n=20 000\). The system always grows}
+\end{figure}\\
+With a maximum value of \(P_y=243.5\) it is assumable that it runs to infinity instead of reaching the predicted \(n_{loop}=6\) (formula \ref{approxN}).
+\pagebreak
+
+\section{Discussion}
+Based on the paper of J{\"u}rgen Moser \cite{moser} shows this model the basic dynamic of a rotating system like our solar system or even a billiard table, where the billiard ball moves around a triangle. Basically, is it claimable that the ball will stuck in a loop, what is not obvious to see. In case of our solar system is it also claimable that the planets can’t escape from the central point. But there are some cases when the loop-length raises up to infinity so it is hard to make a statement with this model because we don’t know the start of the planet or the opportunity that it falls into an in-line position to the center (if we assume that the sun is a triangle). Thinking forward and to raise the number of corners to infinity to model a circle (like the sun in a 2D model), remains the question of an in-line position of one of our solar-system-planets. But this model can show just the fact of a loop building trajectory and the exception of a resonating opportunity. It depend on the position to the triangle and the distance to the next corner (loop-length). Conclusive can we say, that the ball won't escape from the triangle (by assuming constant speed and no outside influences). In the solar system, is the weightlessness for constant speed and the gravity as pulling force, so it is also assumable that no planet ever will leave our solar system. When the planet is in a loop around the Sun (and would have a linear movement).
+
+\listoffigures
+
+\begin{thebibliography}{2}
+
+ \bibitem{doc}Wolfram Language \& System, \url{http://reference.wolfram.com/language/}, 2017.09.20.
+ \bibitem{moser} J{\"u}rgen Moser, "Is the Solar System Stable?", \url{http://abel.math.harvard.edu/archive/118r_spring_05/docs/moser.pdf}, 2017.09.22.
+
+\end{thebibliography}
+
+\end{document}
