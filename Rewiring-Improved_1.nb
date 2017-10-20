@@ -10,16 +10,21 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       158,          7]
-NotebookDataLength[     29952,        727]
-NotebookOptionsPosition[     29279,        706]
-NotebookOutlinePosition[     29637,        722]
-CellTagsIndexPosition[     29594,        719]
+NotebookDataLength[     30145,        732]
+NotebookOptionsPosition[     29381,        710]
+NotebookOutlinePosition[     29739,        726]
+CellTagsIndexPosition[     29696,        723]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
 Notebook[{
+Cell[BoxData[" "], "Input",
+ CellChangeTimes->{
+  3.717478924709354*^9},ExpressionUUID->"9b486bd3-4814-4df6-be00-\
+94d65e1f1004"],
 
 Cell[CellGroupData[{
+
 Cell[BoxData[
  RowBox[{"\[IndentingNewLine]", 
   RowBox[{
@@ -650,24 +655,23 @@ Cell[BoxData[
        Annotation[#, 
         Style[
          Rational[139, 38], {}], "Tooltip"]& ]}}, {}, {}}, {}, {}, {}, {}, 
-   StyleBox[
-    StyleBox[{
-      {Thickness[Tiny], 
-       LineBox[{{-1.274056809905317, 0.}, {3.3105139111434814`, 0.}}], 
+   StyleBox[{
+     {Thickness[Tiny], 
+      LineBox[{{-1.274056809905317, 0.}, {3.3105139111434814`, 0.}}], 
+      StyleBox[{}, "GraphicsLabel",
+       StripOnInput->False]}, 
+     StyleBox[{
+       {Thickness[Tiny], 
+        LineBox[{{0.5487982520029133, 0.}, 
+          Offset[{-1.102182119232618*^-15, -6.}, {0.5487982520029133, 0.}]}], 
+        LineBox[{{1.4512017479970867`, 0.}, 
+          Offset[{-1.102182119232618*^-15, -6.}, {1.4512017479970867`, 
+           0.}]}], {{}, {}, {}}}, 
        StyleBox[{}, "GraphicsLabel",
-        StripOnInput->False]}, 
-      StyleBox[{
-        {Thickness[Tiny], 
-         LineBox[{{0.5487982520029133, 0.}, 
-           Offset[{-1.102182119232618*^-15, -6.}, {0.5487982520029133, 0.}]}],
-          LineBox[{{1.4512017479970867`, 0.}, 
-           Offset[{-1.102182119232618*^-15, -6.}, {1.4512017479970867`, 
-            0.}]}], {{}, {}, {}}}, 
-        StyleBox[{}, "GraphicsLabel",
-         StripOnInput->False]}, "GraphicsTicks",
-       StripOnInput->False]},
-     Antialiasing->False], "GraphicsAxes",
-    StripOnInput->False]},
+        StripOnInput->False]}, "GraphicsTicks",
+      StripOnInput->False]}, "GraphicsAxes",
+    StripOnInput->False,
+    Antialiasing->False]},
   AspectRatio->NCache[GoldenRatio^(-1), 0.6180339887498948],
   Axes->{False, True},
   AxesLabel->{None, None},
@@ -721,13 +725,14 @@ CellTagsIndex->{}
 *)
 (*NotebookFileOutline
 Notebook[{
+Cell[558, 20, 129, 3, 30, "Input",ExpressionUUID->"9b486bd3-4814-4df6-be00-94d65e1f1004"],
 Cell[CellGroupData[{
-Cell[580, 22, 13049, 338, 1459, "Input",ExpressionUUID->"198cc1d8-9328-42a6-8a68-6b16aaffc2e4"],
+Cell[712, 27, 13049, 338, 1459, "Input",ExpressionUUID->"198cc1d8-9328-42a6-8a68-6b16aaffc2e4"],
 Cell[CellGroupData[{
-Cell[13654, 364, 11313, 231, 192, "Print",ExpressionUUID->"83d919d9-5790-4952-90dd-32bb68a8d0b8"],
-Cell[24970, 597, 1284, 20, 40, "Print",ExpressionUUID->"cadecc44-3ef4-4597-ac9e-e41c8efbdd50"]
+Cell[13786, 369, 11313, 231, 192, "Print",ExpressionUUID->"83d919d9-5790-4952-90dd-32bb68a8d0b8"],
+Cell[25102, 602, 1284, 20, 40, "Print",ExpressionUUID->"cadecc44-3ef4-4597-ac9e-e41c8efbdd50"]
 }, Open  ]],
-Cell[26269, 620, 2994, 83, 270, "Output",ExpressionUUID->"46370554-bd1c-4675-980a-5564cb601805"]
+Cell[26401, 625, 2964, 82, 236, "Output",ExpressionUUID->"46370554-bd1c-4675-980a-5564cb601805"]
 }, Open  ]]
 }
 ]
