@@ -20,7 +20,7 @@
 \maketitle
 
 \begin{abstract}
-This report is about networks and more precise about the graph theory. A graph has edges and nodes, the edges connect the nodes with each other, the whole model is called a graph. The average path length (APL) describes the average distance from every single node to every other. In a symmetric graph have all nodes an equal PL. In this report, we found out that the more rewiring we implement, the more decreases the APL.
+This report is about networks and more precise about the graph theory. A graph has edges and nodes, the edges connect the nodes with each other, the whole model is called a graph. The average path length (APL) describes the average distance from every single node to every other. In a symmetric graph, all nodes have an equal path length. In this report, we found out that the more rewiring we implement, the more decreases the APL.
 \end{abstract}
 
 \tableofcontents
@@ -33,7 +33,7 @@ The program Mathematica from Wolfram is a very powerful tool to create Models li
 The entire project is divided into two basic programs while one simulates a specific/ random case of rewiring and the other analyses an entire set of cases. So, the analysing program extends the specific case program. 
  \subsubsection{The Specific Case}
 \begin{labeling}{step}
-\item [a)] \textbf{Basic Setup} The  basic idea of a graph is to use a incidence matrix. The columns describe the edges and the rows display the nodes. For a better handling, will be the following defined: every edge belongs to one node (because a connected graph is necessary) and every edge goes to the belonging node e.g.
+\item [a)] \textbf{Basic Setup} - The  basic idea of a graph is to use a incidence matrix. The columns describe the edges and the rows display the nodes. For a better handling, will be the following defined: every edge belongs to one node (because a connected graph is necessary) and every edge goes to the belonging node e.g.
 Edge \(1\) belongs to node \(1\) (it comes from elsewhere and goes to \(node 1\))
 Referring to this rule the incidence matrix become to:
 \begin{figure}[h]
@@ -48,7 +48,7 @@ It follows the graph. Counter clockwise labelled:
 \includegraphics[width=0.25\textwidth]{basicGraph.png}
 \caption{A connected, simple Graph with \(n=5\). Belongs to Figure \ref{fig:basicMatrix}}
 \end{figure}
-\item [b)] \textbf{Matrix Manipulation} – In the second step follows the randomization. An edge can (physically) be connected to just two nodes so every column can hold only two \(1\). In a row can be \(1\) as much as possible but at least one (to be at least connected to the rest of the network with its belonging edge). At first, we pick randomly an edge then is it needed to find the changeable node (because every edge belongs to a node). Now can we randomly determine a new node to connect. But because of the randomization are there some checks for the new node needed:
+\item [b)] \textbf{Matrix Manipulation} - In the second step follows the randomization. An edge can (physically) be connected to just two nodes so every column can hold only two \(1\). In a row can be \(1\) as much as possible but at least one (to be at least connected to the rest of the network with its belonging edge). At first, we pick randomly an edge then is it needed to find the changeable node (because every edge belongs to a node). Now can we randomly determine a new node to connect. But because of the randomization are there some checks for the new node needed:
 \begin{itemize}  
 \item Is the new node, the old (already connected) node? 
 \item Is the new connection still existing? (simple graph) 
@@ -61,67 +61,33 @@ If one of these checks fail, must the new node (randomly) be picked again. The n
 \caption{A network with \(n=60\) and a rewiring of \(5\%(3)\) refered to \cite{melanie}}
 \end{figure}
 In this program is an auto-random mode implemented, if it is deactivated the rewiring can be entered manually.
-\item [c)] \textbf{Output} – The Output handles the conversion of the incidence matrices and organises the display for example the APL which is realized with the built-in function: \(MeanGraphDistance[]\).
+\item [c)] \textbf{Output} - The Output handles the conversion of the incidence matrices and organises the display for example the APL which is realized with the built-in \(MeanGraphDistance[]\) function.
 \end{labeling}
+\subsubsection{The Analysing Case}
+This program extends the first program (the specific case). The entire randomization will be repeated \(p\) times (precision) and every APL will be stored in a list. After p times it stores the average of all APL with this given value of rewiring (in percentage). This process will be repeated twenty times with a respectively increment of \(1\%\) rewiring per repetition. So, a whole analysing run shows the average of the APL over an area of \(20\%\) starting at \(5\%\) e.g.:
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.6\textwidth]{analysingAPL.png}
+\caption{A network with \(n=60\) a rewiring from \(5-25\%\) and a repetition of \(p=100\)}
+\end{figure}
+\subsection{Average Path Length}
+In the literature is in general the APL described by the following formula\cite{apl}:
+\begin{align}
+APL=\frac{1}{n\cdot(n-1)} \cdot \sum \limits_{i\neq j} d(v_i,v_j)
+\end{align}
+While \(n\) describes the number of nodes and \(d(v_i,v_j)\) the shortest distance between two nodes.
+
 \section{Results}
-Basically, are there three types of trajectories. The depending factors for a different result are the
-\begin{tasks}(3)
-\task distance to the \\next corner
-\task number of \\repetitions
-\task position to the \\triangle
-\end{tasks}
-It is another type of trajectory if the pattern is different from the expected. The mainly factor is the distance to the next corner. Here are two options: close to the triangle (the point is located in the range of the dimensions of the triangle) or far away from the next corner (factor \(100\) and up):
- \subsection{Starting point in close vicinity to the triangle}
-The normal expected situation is to use the model in proportional way. So, we got a triangle with a side length of \(d_1=1\), therefore it is a good start to locate the starting point also with a distance of \(d_1=1\) to one of the corners. We start also with a relatively low number of repetitions in this case with: \(n=25\).
-
-It seems to be a loop after a while because there are not 25 lines. Another try with \(n=1000\) repetitions tells more:
-
-So, both figures have the same pattern: it is a loop. First statement: the ball can’t escape because it got only one trajectory, which it can’t leave. Another starting point position approves it. It has another pattern (expected) and the loop has a longer way but it remains a loop:
-
-Here is the deliberation: Can we predict the number of repetitions to get a loop according to the distance to the triangle? For this case, it must be found an equal point in the point list. Here it is helpful to use the \(Position[list, {Point}]\) -command. One strategy is to create a list with the loop length of some positions of \(K\) and look for a pattern. The prediction \(n_{loop}\) can be approximate by:
-\begin{align}
-\label{approxN}n_{loop}&= \left(4 \cdot round_b \left( \frac{d_1}{7} \right) \pm 1\right) \cdot 6
-\end{align}
-The precision depends in this formula on the border to round up or down. The border \(b\) is approximately:
-\begin{align}
-b&\approx 0.45
-\end{align} 
-to round up. Dependent from the rounding it is necessary to add or to substrate a \(1\):
-\begin{align}
-round up &\rightarrow -1\\
-round down &\rightarrow +1 
-\end{align}
-For example, the starting point has a distance of \(d_1=25\):
-\begin{align}
-n_{loop}= \left(4 \cdot round_b \left( \frac{25}{7} \right) -1 \right) \cdot 6 = \left(4 \cdot 4 -1 \right) \cdot 6 = 90
-\end{align}
-
-
-\subsection{Starting point is in-line with a triangles side}
-There are some exceptions. Some of them are easy to detect and some are very hard. If the starting point is in line of a triangles side:
-\begin{align}
-f(x) \lor g(x) \lor h(x) &= P_{xy} \lor K_{xy}
-\end{align}
-Then is the loop-length nearly to infinity or even not existing. Because of the extreme it is nearly impossible to make statement about this case. To except the in- line positions is not that problem but in case of an in-line located point after the starting point is much harder to predict.\\
-\pagebreak
-
-Or a causing in-line case with just \(10\) repetitions:
-
-Therefore, the pattern grows more and more up until it finds a loop or runs to infinity:
-
-With a maximum value of \(P_y=243.5\) it is assumable that it runs to infinity instead of reaching the predicted \(n_{loop}=6\) (formula \ref{approxN}).
-\pagebreak
-
+RESULTS GOES HERE...
 \section{Discussion}
-Based on the paper of J{\"u}rgen Moser \cite{moser} shows this model the basic dynamic of a rotating system like our solar system or even a billiard table, where the billiard ball moves around a triangle. Basically, is it claimable that the ball will stuck in a loop, what is not obvious to see. In case of our solar system is it also claimable that the planets can’t escape from the central point. But there are some cases when the loop-length raises up to infinity so it is hard to make a statement with this model because we don’t know the start of the planet or the opportunity that it falls into an in-line position to the center (if we assume that the sun is a triangle). Thinking forward and to raise the number of corners to infinity to model a circle (like the sun in a 2D model), remains the question of an in-line position of one of our solar-system-planets. But this model can show just the fact of a loop building trajectory and the exception of a resonating opportunity. It depend on the position to the triangle and the distance to the next corner (loop-length). Conclusive can we say, that the ball won't escape from the triangle (by assuming constant speed and no outside influences). In the solar system, is the weightlessness for constant speed and the gravity as pulling force, so it is also assumable that no planet ever will leave our solar system. When the planet is in a loop around the Sun (and would have a linear movement).
+Based on the paper of shows this model the basic dynamic of a rotating system like our solar system or even a billiard table, where the billiard ball moves around a triangle. Basically, is it claimable that the ball will stuck in a loop, what is not obvious to see. In case of our solar system is it also claimable that the planets can’t escape from the central point. But there are some cases when the loop-length raises up to infinity so it is hard to make a statement with this model because we don’t know the start of the planet or the opportunity that it falls into an in-line position to the center (if we assume that the sun is a triangle). Thinking forward and to raise the number of corners to infinity to model a circle (like the sun in a 2D model), remains the question of an in-line position of one of our solar-system-planets. But this model can show just the fact of a loop building trajectory and the exception of a resonating opportunity. It depend on the position to the triangle and the distance to the next corner (loop-length). Conclusive can we say, that the ball won't escape from the triangle (by assuming constant speed and no outside influences). In the solar system, is the weightlessness for constant speed and the gravity as pulling force, so it is also assumable that no planet ever will leave our solar system. When the planet is in a loop around the Sun (and would have a linear movement).
 
 \listoffigures
 
-\begin{thebibliography}{2}
-
- \bibitem{doc}Wolfram Language \& System, \url{http://reference.wolfram.com/language/}, 2017.09.20.
- \bibitem{melanie} Melanie Mitchel, "Complexity - A Guided Tour", 2017.09.22.
-
+\begin{thebibliography}{3}
+ \bibitem{doc}Wolfram Language \& System, \url{http://reference.wolfram.com/language/}, 2017.10.20.
+ \bibitem{melanie} Melanie Mitchel, "Complexity - A Guided Tour", (2009), Chapter 15.
+\bibitem{apl}Albert, R\'eka and Barab\'asi, Albert-L\'aszl\'o, "Statistical mechanics of complex networks", p.65, \url{https://doi.org/10.1103/RevModPhys.74.47} 
 \end{thebibliography}
 
 \end{document}
